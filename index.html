@@ -1,221 +1,282 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #0a1a3a;
-      color: white;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a1a3a;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
 
-    h1 {
-      font-size: 3rem;
-      margin: 20px 0;
-    }
+        h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
 
-  #form-container {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    background-color: #007BFF;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+        @keyframes bounce {
 
+            0%,
+            100% {
+                transform: translateY(0);
+            }
 
-    input,
-    select,
-    button {
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      margin: 5px;
-    }
-    
+            50% {
+                transform: translateY(-10px);
+            }
+        }
 
-    input,
-    select {
-      width: 150px;
-    }
+        #form-container {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background-color: #007BFF;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    button {
-      cursor: pointer;
-      background-color: /*007BFF*/ transparent;
-      border: 2px solid #0664c9;
-      color: white;
-    }
+        input,
+        select,
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
 
-    button:hover {
-      background-color: #0056b3;
-    }
+        input,
+        select {
+            width: 150px;
+        }
 
-    .player-card {
-      background-color: #1f3a73;
-      margin: 30px auto;
-      padding: 15px;
-      border-radius: 20px;
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      gap: 100px;
-      align-items: center;
-      color: white;
-      /* position: relative; */
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-      border: 2px solid #1e90ff;
-    }
+        button {
+            cursor: pointer;
+            background-color: white;
+            border: 2px solid #0664c9;
+            color: black;
+        }
 
-    .player-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      flex: 2;
-      text-align:left ;
-    }
+        button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
 
-    .country,
-    .score {
-      flex: 1;
-      text-align: center;
-    }
+        .player-card {
+            background-color: #1f3a73;
+            margin: 30px auto;
+            padding: 15px;
+            border-radius: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 180px;
+            align-items: center;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            border: 2px solid #1e90ff;
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    .actions {
-      display: flex;
-      gap: 10px;
-    }
+        .player-card:hover {
+            transform: scale(1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
 
-    .btn {
-      padding: 10px;
-      font-size: 14px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      color: white;
-    }
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 2;
+            text-align: left;
+        }
 
-    .btn-decrement {
-      background-color: #1F3A73;
-    }
+        .country,
+        .score {
+            flex: 1;
+            text-align: center;
+        }
 
-    .btn-increment {
-      background-color: #1F3A73;
-    }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
 
-    .btn-delete {
-      background-color: #1F3A73;
-    }
-  </style>
+        .btn {
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .btn-decrement,
+        .btn-increment,
+        .btn-delete {
+            background-color: #1F3A73;
+        }
+
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #form-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            input,
+            select,
+            button {
+                width: 100%;
+                font-size: 1rem;
+            }
+
+            .player-card {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .player-info {
+                text-align: center;
+                align-items: center;
+            }
+
+            .country,
+            .score {
+                text-align: center;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <h1>🏆 LEADERBOARD 🏆</h1>
-  <div id="form-container">
-    <input type="text" id="firstName" placeholder="First Name">
-    <input type="text" id="lastName" placeholder="Last Name">
-    <select id="country">
-      <option value="" disabled selected>Select country</option>
-      <option value="India">India</option>
-      <option value="Australia">Australia</option>
-      <option value="England">England</option>
-      <option value="Pakistan">Pakistan</option>
-      <option value="Sri Lanka">Sri Lanka</option>
-    </select>
-    <input type="number" id="score" placeholder="Score" value="">
-    <button onclick="addPlayer()">Add Score</button>
-  </div>
-  <div id="players"></div>
+    <h1>🏆 LEADERBOARD 🏆</h1>
+    <div id="form-container">
+        <input type="text" id="firstName" placeholder="First Name">
+        <input type="text" id="lastName" placeholder="Last Name">
+        <select id="country">
+            <option value="" disabled selected>Select country</option>
+            <option value="India">India</option>
+            <option value="Australia">Australia</option>
+            <option value="England">England</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+        </select>
+        <input type="number" id="score" placeholder="Score" value="">
+        <button onclick="addPlayer()">Add Score</button>
+        <button onclick="sortPlayers()">Sort Players</button>
+    </div>
+    <div id="players"></div>
+    <script>
+        const players = [];
 
-  <script>
-    const players = [];
+        function addPlayer() {
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const country = document.getElementById("country").value;
+            const score = parseInt(document.getElementById("score").value);
 
-    function addPlayer() {
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const country = document.getElementById("country").value;
-      const score = parseInt(document.getElementById("score").value);
+            if (!firstName || !lastName || !country || isNaN(score)) {
+                alert("Please fill out all fields correctly.");
+                return;
+            }
 
-      if (!firstName || !lastName || !country || isNaN(score)) {
-        alert("Please fill out all fields correctly.");
-        return;
-      }
+            const player = { firstName, lastName, country, score, id: Date.now() };
+            players.push(player);
 
-      const player = { firstName, lastName, country, score, id: Date.now() };
-      players.push(player);
-      renderPlayers();
-    }
+            document.getElementById("firstName").value = "";
+            document.getElementById("lastName").value = "";
+            document.getElementById("country").value = "";
+            document.getElementById("score").value = "";
 
-    function updateScore(playerId, change) {
-      const player = players.find(p => p.id === playerId);
-      if (player) player.score += change;
-      renderPlayers();
-    }
+            renderPlayers();
+        }
 
-    function deletePlayer(playerId) {
-      const index = players.findIndex(p => p.id === playerId);
-      if (index !== -1) players.splice(index, 1);
-      renderPlayers();
-    }
+        function updateScore(playerId, change) {
+            const player = players.find(p => p.id === playerId);
+            if (player) player.score += change;
+            renderPlayers();
+        }
 
-    function renderPlayers() {
-      const container = document.getElementById("players");
-      container.innerHTML = "";
+        function deletePlayer(playerId) {
+            const index = players.findIndex(p => p.id === playerId);
+            if (index !== -1) players.splice(index, 1);
+            renderPlayers();
+        }
 
-      players.sort((a, b) => b.score - a.score).forEach(player => {
-        const playerCard = document.createElement("div");
-        playerCard.className = "player-card";
+        function sortPlayers() {
+            players.sort((a, b) => b.score - a.score);
+            renderPlayers();
+        }
 
-        const playerInfo = document.createElement("div");
-        playerInfo.className = "player-info";
-        playerInfo.innerHTML = `
-                    <div>${player.firstName} ${player.lastName}</div>
-                    <div>${new Date().toLocaleDateString()}</div>
-                `;
+        function renderPlayers() {
+            const container = document.getElementById("players");
+            container.innerHTML = "";
 
-        const country = document.createElement("div");
-        country.className = "country";
-        country.textContent = player.country;
+            players.forEach(player => {
+                const playerCard = document.createElement("div");
+                playerCard.className = "player-card";
 
-        const score = document.createElement("div");
-        score.className = "score";
-        score.textContent = player.score;
+                const playerInfo = document.createElement("div");
+                playerInfo.className = "player-info";
+                playerInfo.innerHTML = `
+          <div>${player.firstName} ${player.lastName}</div>
+          <div>${new Date().toLocaleDateString()}</div>
+        `;
 
-        const actions = document.createElement("div");
-        actions.className = "actions";
-        actions.innerHTML = `
-                    <button class="btn btn-delete" onclick="deletePlayer(${player.id})">🗑</button>
-                    <button class="btn btn-decrement" onclick="updateScore(${player.id}, -5)">-5</button>
-                    <button class="btn btn-increment" onclick="updateScore(${player.id}, 5)">+5</button>
-                `;
+                const country = document.createElement("div");
+                country.className = "country";
+                country.textContent = player.country;
 
-        playerCard.appendChild(playerInfo);
-        playerCard.appendChild(country);
-        playerCard.appendChild(score);
-        playerCard.appendChild(actions);
-        container.appendChild(playerCard);
-      });
-    }
-  </script>
+                const score = document.createElement("div");
+                score.className = "score";
+                score.textContent = player.score;
+
+                const actions = document.createElement("div");
+                actions.className = "actions";
+                actions.innerHTML = `
+          <button class="btn btn-delete" onclick="deletePlayer(${player.id})">🗑</button>
+          <button class="btn btn-decrement" onclick="updateScore(${player.id}, -5)">-5</button>
+          <button class="btn btn-increment" onclick="updateScore(${player.id}, 5)">+5</button>
+        `;
+
+                playerCard.appendChild(playerInfo);
+                playerCard.appendChild(country);
+                playerCard.appendChild(score);
+                playerCard.appendChild(actions);
+                container.appendChild(playerCard);
+            });
+        }
+    </script>
 </body>
 
 </html>
