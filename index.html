@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a1a3a;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 20px 0;
+    }
+
+  #form-container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: #007BFF;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+    input,
+    select,
+    button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    
+
+    input,
+    select {
+      width: 150px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: /*007BFF*/ transparent;
+      border: 2px solid #0664c9;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .player-card {
+      background-color: #1f3a73;
+      margin: 30px auto;
+      padding: 15px;
+      border-radius: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      gap: 100px;
+      align-items: center;
+      color: white;
+      /* position: relative; */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      border: 2px solid #1e90ff;
+    }
+
+    .player-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex: 2;
+      text-align:left ;
+    }
+
+    .country,
+    .score {
+      flex: 1;
+      text-align: center;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .btn-decrement {
+      background-color: #1F3A73;
+    }
+
+    .btn-increment {
+      background-color: #1F3A73;
+    }
+
+    .btn-delete {
+      background-color: #1F3A73;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🏆 LEADERBOARD 🏆</h1>
+  <div id="form-container">
+    <input type="text" id="firstName" placeholder="First Name">
+    <input type="text" id="lastName" placeholder="Last Name">
+    <select id="country">
+      <option value="" disabled selected>Select country</option>
+      <option value="India">India</option>
+      <option value="Australia">Australia</option>
+      <option value="England">England</option>
+      <option value="Pakistan">Pakistan</option>
+      <option value="Sri Lanka">Sri Lanka</option>
+    </select>
+    <input type="number" id="score" placeholder="Score" value="">
+    <button onclick="addPlayer()">Add Score</button>
+  </div>
+  <div id="players"></div>
+
+  <script>
+    const players = [];
+
+    function addPlayer() {
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const country = document.getElementById("country").value;
+      const score = parseInt(document.getElementById("score").value);
+
+      if (!firstName || !lastName || !country || isNaN(score)) {
+        alert("Please fill out all fields correctly.");
+        return;
+      }
+
+      const player = { firstName, lastName, country, score, id: Date.now() };
+      players.push(player);
+      renderPlayers();
+    }
+
+    function updateScore(playerId, change) {
+      const player = players.find(p => p.id === playerId);
+      if (player) player.score += change;
+      renderPlayers();
+    }
+
+    function deletePlayer(playerId) {
+      const index = players.findIndex(p => p.id === playerId);
+      if (index !== -1) players.splice(index, 1);
+      renderPlayers();
+    }
+
+    function renderPlayers() {
+      const container = document.getElementById("players");
+      container.innerHTML = "";
+
+      players.sort((a, b) => b.score - a.score).forEach(player => {
+        const playerCard = document.createElement("div");
+        playerCard.className = "player-card";
+
+        const playerInfo = document.createElement("div");
+        playerInfo.className = "player-info";
+        playerInfo.innerHTML = `
+                    <div>${player.firstName} ${player.lastName}</div>
+                    <div>${new Date().toLocaleDateString()}</div>
+                `;
+
+        const country = document.createElement("div");
+        country.className = "country";
+        country.textContent = player.country;
+
+        const score = document.createElement("div");
+        score.className = "score";
+        score.textContent = player.score;
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+        actions.innerHTML = `
+                    <button class="btn btn-delete" onclick="deletePlayer(${player.id})">🗑</button>
+                    <button class="btn btn-decrement" onclick="updateScore(${player.id}, -5)">-5</button>
+                    <button class="btn btn-increment" onclick="updateScore(${player.id}, 5)">+5</button>
+                `;
+
+        playerCard.appendChild(playerInfo);
+        playerCard.appendChild(country);
+        playerCard.appendChild(score);
+        playerCard.appendChild(actions);
+        container.appendChild(playerCard);
+      });
+    }
+  </script>
+</body>
+
+</html>
